@@ -2,7 +2,7 @@ FILES=/root/statsd-deployment
 WHISPER=http://launchpad.net/graphite/0.9/0.9.9/+download/whisper-0.9.9.tar.gz
 CARBON=http://launchpad.net/graphite/0.9/0.9.9/+download/carbon-0.9.9.tar.gz
 GRAPHITE=http://launchpad.net/graphite/0.9/0.9.9/+download/graphite-web-0.9.9.tar.gz
-DEPLOYMENT=git@github.com:prestonitmmons/statsd-deployment.git
+DEPLOYMENT=git@github.com:prestontimmons/statsd-deployment.git
 
 #
 # Install system dependencies
@@ -74,7 +74,7 @@ apt-get -y install supervisor
 cd /etc/supervisor
 rm -rf supervisord.conf conf.d
 ln -s $FILES/supervisor/supervisord.conf .
-/etc/init.d/supervisor restart
+/etc/init.d/supervisor start
 /usr/bin/supervisorctl reload
 
 # Configure nginx
