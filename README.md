@@ -14,3 +14,8 @@ Quick and easy deployment of Graphite and PyStatsd on an Ubuntu server.
 4. Load your server: http://myserver/
 
 
+## Notes
+
+The Graphite web app is set up to run behind nginx. The process is managed by supervisor and gunicorn.
+
+An application is running at /stats/ for managing static dashboard easily.
