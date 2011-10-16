@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1>Index</h1>
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="{{ url_for('dashboard', name='demo') }}">Demo Metrics</a></td><td>Metrics for account creation and logins</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

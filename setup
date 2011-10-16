@@ -1,0 +1,94 @@
+FILES=/root/statsd-deployment
+WHISPER=http://launchpad.net/graphite/0.9/0.9.9/+download/whisper-0.9.9.tar.gz
+CARBON=http://launchpad.net/graphite/0.9/0.9.9/+download/carbon-0.9.9.tar.gz
+GRAPHITE=http://launchpad.net/graphite/0.9/0.9.9/+download/graphite-web-0.9.9.tar.gz
+DEPLOYMENT=git@github.com:prestonitmmons/statsd-deployment.git
+
+#
+# Install system dependencies
+#
+
+apt-get update
+apt-get -y install git-core curl build-essential openssl libssl-dev
+
+#
+# Install python dependencies
+#
+
+apt-get -y install python-setuptools
+apt-get -y install python-twisted
+easy_install pip
+pip install virtualenv
+pip install python-memcache
+pip install django
+pip install django-tagging
+pip install pystatsd
+pip install simplejson
+pip install gunicorn
+
+# Install Memcached
+apt-get -y install memcached
+
+# Install Cairo
+apt-get -y install libcairo2-dev python-cairo
+
+#
+# Install graphite and dependencies
+# This has three parts: Installing whisper, carbon, and graphite
+#
+pip install $WHISPER
+pip install $CARBON
+pip install $GRAPHITE
+
+#
+# Set up configuration
+#
+
+if [ ! -d /root/statsd-deployment ]
+then
+    cd /root/
+    git clone $DEPLOYMENT
+fi
+
+# Copy configuration files
+cd /opt/graphite/conf
+rm carbon.conf storage-schemas.conf storage-aggregation.conf graphite.wsgi
+ln -s $FILES/graphite/carbon.conf .
+ln -s $FILES/graphite/storage-schemas.conf .
+ln -s $FILES/graphite/storage-aggregation.conf .
+ln -s $FILES/graphite/graphite.wsgi .
+
+cd /etc/init
+cp $FILES/init/pystatsd.conf .
+
+# Copy carbon init script
+cp $FILES/init.d/carbon /etc/init.d/
+update-rc.d carbon defaults
+
+# Set up environment for dashboard
+virtualenv /root/flask --no-site-packages
+/root/flask/bin/pip install flask gunicorn
+
+# Configure supervisor
+apt-get -y install supervisor
+cd /etc/supervisor
+rm -rf supervisord.conf conf.d
+ln -s $FILES/supervisor/supervisord.conf .
+/etc/init.d/supervisor restart
+/usr/bin/supervisorctl reload
+
+# Configure nginx
+apt-get -y install nginx
+cd /etc/nginx
+rm -rf conf.d/ fastcgi_params koi-* nginx.conf sites-* win-utf
+ln -s $FILES/nginx/nginx.conf .
+/etc/init.d/nginx restart
+
+# Setup Django database
+python /opt/graphite/webapp/graphite/manage.py syncdb
+
+# Start Carbon
+/etc/init.d/carbon start
+
+# Start pystatd server
+start pystatsd

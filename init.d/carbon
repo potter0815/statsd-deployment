@@ -1,0 +1,34 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          carbon
+# Required-Start:    $syslog
+# Required-Stop:     $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Carbon daemon for Graphite
+# Description:       Carbon daemon for Graphite
+### END INIT INFO
+
+# Some things that run always
+touch /var/lock/carbon
+
+GRAPHITE_HOME=/opt/graphite
+CARBON_USER=www-data
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+    start)
+        echo "Starting script carbon "
+        su $CARBON_USER -c "cd $GRAPHITE_HOME"; su $CARBON_USR -c "$GRAPHITE_HOME/bin/carbon-cache.py start"
+        ;;
+    stop)
+        echo "Stopping script carbon"
+        su $CARBON_USER -c "cd $GRAPHITE_HOME"; su $CARBON_USR -c "$GRAPHITE_HOME/bin/carbon-cache.py stop"
+        ;;
+    *)
+        echo "Usage: /etc/init.d/carbon {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0

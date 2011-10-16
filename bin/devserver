@@ -1,0 +1,5 @@
+#
+# Run the graphite dev server
+#
+
+cd /opt/graphite; PYTHONPATH=`pwd`/whisper ./bin/run-graphite-devel-server.py --libs=`pwd`/webapp/ /opt/graphite/

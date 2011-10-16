@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>{% block title %}Gospel for Asia Dashboard{% endblock %}</title>
+    {% block head_css %}
+    <link href="{{ url_for('static', filename='bootstrap/bootstrap.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block head_javascript %}
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+      <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-twipsy.js') }}"></script>
+      <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-scrollspy.js') }}"></script>
+      <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-dropdown.js') }}"></script>
+      <script src="{{ url_for('static', filename='bootstrap/js/bootstrap-popover.js') }}"></script>
+    {% endblock %}
+
+    <meta http-equiv="refresh" content="60">
+  </head>
+  <body style="padding-top: 80px;">
+    <div class="topbar-wrapper" style="z-index: 5;">
+      <div class="topbar" data-dropdown="dropdown" >
+        <div class="topbar-inner">
+          <div class="container">
+            <h3><a href="{{ url_for('index') }}">Gospel for Asia</a></h3>
+            <ul class="nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Dashboards</a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url_for('dashboard', name='demo') }}">Demo Metrics</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav secondary-nav">
+              <li><a href="/">Data Browser</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <div class="container">
+        <h6>Updated {{ now|date("%Y-%m-%d %g:%M%p") }}</h6>
+    </div>
+  </body>
+</html>
