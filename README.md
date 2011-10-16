@@ -36,4 +36,4 @@ This is different than the system default of averaging.
 
 The Graphite web app is set up to run behind nginx. The process is managed by [supervisor](http://supervisord.org/) and [gunicorn](http://gunicorn.org/).
 
-An application is running at /stats/ for managing static dashboards easily.
+An application from the dashboard folder is running at /stats/ for managing static dashboards easily.
