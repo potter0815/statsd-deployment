@@ -1,5 +1,7 @@
 Quick and easy deployment of Graphite and PyStatsd on an Ubuntu server.
 
+Installs Graphite 0.9.9.
+
 
 ## Installation
 
