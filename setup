@@ -3,6 +3,7 @@ WHISPER=http://launchpad.net/graphite/0.9/0.9.9/+download/whisper-0.9.9.tar.gz
 CARBON=http://launchpad.net/graphite/0.9/0.9.9/+download/carbon-0.9.9.tar.gz
 GRAPHITE=http://launchpad.net/graphite/0.9/0.9.9/+download/graphite-web-0.9.9.tar.gz
 DEPLOYMENT=git@github.com:prestontimmons/statsd-deployment.git
+VIRTUALENV=/root/flask
 
 #
 # Install system dependencies
@@ -44,7 +45,7 @@ pip install $GRAPHITE
 # Set up configuration
 #
 
-if [ ! -d /root/statsd-deployment ]
+if [ ! -d $FILES ]
 then
     cd /root/
     git clone $DEPLOYMENT
@@ -66,7 +67,10 @@ cp $FILES/init.d/carbon /etc/init.d/
 update-rc.d carbon defaults
 
 # Set up environment for dashboard
-virtualenv /root/flask --no-site-packages
+if [ ! -d $VIRTUALENV ]
+then
+    virtualenv $VIRTUALENV --no-site-packages
+fi
 /root/flask/bin/pip install flask gunicorn
 
 # Configure supervisor
