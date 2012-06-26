@@ -2,7 +2,7 @@ FILES=/root/statsd-deployment
 WHISPER=http://launchpad.net/graphite/0.9/0.9.9/+download/whisper-0.9.9.tar.gz
 CARBON=http://launchpad.net/graphite/0.9/0.9.9/+download/carbon-0.9.9.tar.gz
 GRAPHITE=http://launchpad.net/graphite/0.9/0.9.9/+download/graphite-web-0.9.9.tar.gz
-DEPLOYMENT=git@github.com:prestontimmons/statsd-deployment.git
+DEPLOYMENT=git@github.com/potter0815/statsd-deployment.git
 VIRTUALENV=/root/flask
 
 #
